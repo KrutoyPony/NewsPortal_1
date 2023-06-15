@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Категории
+{% endblock title %}
+
+{% block content %}
+	<h3>{{ time_now|date:'M d Y' }}</h3>
+	<hr>
+	<h3>Категории</h3>
+	{% if categoryes %}
+		<table>
+			<tr>
+				<td><h4>Название:</h4></td>
+			</tr>
+			{% for category in categoryes %}
+			<tr>
+				<td>{{category.name}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+    {% else %}
+   		<h1>Категорий нету</h1>
+	{% endif %}
+{% endblock content %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+{% extends 'flatpages/default.html' %}
+
+{% load censor %}
+
+
+{% block title %}
+	Посты
+{% endblock title %}
+
+{% block content %}
+ 
+  <!-- Вывод формы фильтра  -->
+   <!-- <h4>Фильтр</h4> -->
+<!--   <form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти" />
+  </form>
+  <hr>
+  <h1>НОВОСТИ</h1>
+	<tr><td><h2>Новостей всего:{{ post|length }}</h2></td></tr>
+ -->
+
+ <!-- Вывод новостей -->
+	{% if post %}
+	<table>
+    <thead>
+      <tr>
+        <th>Заголовок</th>
+        <th>Новость</th>
+        <th>Дата</th>
+        <th>Автор</th>
+        <th>Тип</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in post %}
+      <tr>
+        <td>{{ i.article_title_news|censor }}</td>
+        <td>
+          {% if i.post_or_new == 'Новость' %}
+          <a href="http://127.0.0.1:8000/posts/news/{{i.id}}">{{ i.main_text|truncatewords:20|censor  }}</a></td>
+          {% elif i.post_or_new == 'Статья' %}
+          <a href="http://127.0.0.1:8000/posts/articles/{{i.id}}">{{ i.main_text|truncatewords:20|censor  }}</a></td>
+          {% endif %}
+
+        <td>{{ i.time_create|date:'Y-m-d' }}</td>
+        <td>{{ i.id_author }}</td>
+        <td>{{ i.post_or_new }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Добавляем пагинацию на страницу 
+  Информация о предыдущих страницах -->
+
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   <!-- Информация о текущей странице -->
+
+   {{ page_obj.number }}
+
+   <!-- Информация о следующих страницах -->
+
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+   <!-- Если новостей нет -->
+	{% else %}
+	<h1>Новостей нет</h1>
+	{% endif %}
+
+{% endblock content %}

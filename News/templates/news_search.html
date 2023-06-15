@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+  <!-- Вывод формы фильтра -->
+  <h4>Фильтр</h4>
+  <form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти" />
+  </form>
+  <hr>
+  <h1>НОВОСТИ</h1>
+  {% if filterset.form.is_bound and filterset.form.is_valid %}
+    {% if filterset.form.cleaned_data.article_title_news or filterset.form.cleaned_data.id_author or filterset.form.cleaned_data.time_create %}
+      <tr><td><h2>Поиск:</h2></td></tr>
+
+      {% for i in filterset.qs %}
+        {% if i.post_or_new == 'Новость' %}
+        <h4><a href="http://127.0.0.1:8000/posts/news/{{i.id}}">{{ i.article_title_news }}</a></h4>
+        {% elif i.post_or_new == 'Статья' %}
+        <h4><a href="http://127.0.0.1:8000/posts/articles/{{i.id}}">{{ i.article_title_news }}</a></h4>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <h1>Пусто</h1>
+    {% endif %}
+  {% endif %}
+{% endblock content %}

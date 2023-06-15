@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% extends 'flatpages/default.html' %}
+
+{% load censor %}
+
+{% block title %}
+{{news.post_or_new}} | {{news.article_title_news|truncatechars:20}}
+{% endblock title %}
+
+{% block content %}
+<h4>Тип: {{news.post_or_new}}</h4>
+<hr>
+<h4>Дата: {{news.time_create|date:"d.m.Y"}}</h4>
+<hr>
+<h2>Заголовок</h2>
+<h4>{{news.article_title_news|censor}}</h4>
+<hr>
+<h2>Текст новости</h2>
+<h4>{{news.main_text|censor}}<h4>
+</h4>
+	<hr>
+	<h3>Автор</h3>
+	<h1>{{news.id_author}}<h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: right;">&nbsp;</p>
+{% endblock content%}
